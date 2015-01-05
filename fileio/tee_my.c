@@ -13,7 +13,7 @@ extern "C"
 int main(int argc, char** argv)
 {
     int ap = 1;
-    int openFlags = O_RDWR | O_CREAT;
+    int openFlags = O_RDWR | O_CREAT | O_TRUNC;
     char buf[BUF_SIZE];
     int numRead;
     int fileno[10];
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
     if (strcmp(argv[1], "-a") == 0)
     {
-        openFlags |= O_APPEND;
+        openFlags = O_RDWR | O_CREAT | O_APPEND;
         ap = 2;
     }
 
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
         for(int i = 0; i < 10; ++i)
         {
             if (fileno[i] > 0) // check fd;
-                if(write(tmpfd, buf, numRead) != numRead)
+                if(write(fileno[i], buf, numRead) != numRead)
                     errExit("write");
         }
     }
