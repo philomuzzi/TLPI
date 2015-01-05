@@ -22,14 +22,14 @@ int main(int argc, char** argv)
     if (fd == -1)
         errExit("open");
 
-    for (ap = 2; ap < argc, ap++)
+    for (ap = 2; ap < argc; ap++)
     {
         switch (argv[ap][0])
         {
             case 'r':
             case 'R':
                 len = getLong(&argv[ap][1], GN_ANY_BASE, argv[ap]);
-                buf = malloc(len);
+                buf = (char*)malloc(len);
                 if (buf == NULL)
                     errExit("malloc");
 
@@ -55,6 +55,7 @@ int main(int argc, char** argv)
                             printf("%02x ", (unsigned char)buf[j]);
                         }
                     }
+                    printf("\n");
                 }
 
                 free(buf);
