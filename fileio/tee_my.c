@@ -7,7 +7,7 @@ extern "C"
 }
 
 #ifndef BUF_SIZE
-#define BUF_SIZE = 1024
+#define BUF_SIZE 1024
 #endif
 
 int main(int argc, char** argv)
@@ -34,13 +34,13 @@ int main(int argc, char** argv)
             errExit("open");
     }
 
-    memset(tmp, 0, BUF_SIZE);
+    memset(buf, 0, BUF_SIZE);
     while((numRead = read(STDIN_FILENO, buf, BUF_SIZE)) > 0)
         if(write(tmpfd, buf, numRead) != numRead)
             errExit("write");
 
     if (numRead == -1)
-        errExit(read);
+        errExit("read");
 
     exit(EXIT_SUCCESS);
 }
