@@ -1,15 +1,18 @@
 TLPI_PATH = ..
 
-INCLUDES = -I $(TLPI_PATH)/lib 
-LIBS = -static -ltlpi 
+INCLUDES = -I $(TLPI_PATH)/lib
+LIBS = -static -ltlpi
 
 PROG = copy.exe
 CFILES = copy.c
 
-CXXFLAGS = -g -Wall -fPIC ${INCLUDES} -o $(PROG) -L.. -L.
+CXXFLAGS = -g -Wall ${INCLUDES}  -L.. -L.
 
-all : 
-	$(CXX) $(CXXFLAGS) $(CFILES) $(LIBS)
+copy :
+	$(CXX) $(CXXFLAGS) copy.c -o copy.exe $(LIBS)
+
+seek_io :
+	$(CXX) $(CXXFLAGS) seek_io.c -o seek_io.exe $(LIBS)
 
 clean :
 	rm -rf *.exe
