@@ -1,6 +1,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
+extern "C"
+{
 #include "tlpi_hdr.h"
+}
 
 #ifndef BUF_SIZE
 #define BUF_SIZE 1024

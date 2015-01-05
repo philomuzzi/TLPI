@@ -1,18 +1,15 @@
-CC = gcc
-
 TLPI_PATH = ..
 
 INCLUDES = -I $(TLPI_PATH)/lib 
-CFLAGS = -g -Wall ${INCLUDES}
+LIBS = -static -ltlpi 
 
-LIBS = -L.. -ltlpi
 PROG = copy.exe
+CFILES = copy.c
 
+CXXFLAGS = -g -Wall -fPIC ${INCLUDES} -o $(PROG) -L.. -L.
 
-all : $(PROG)
-
-$(PROG): copy.c
-	$(CC) $(CFLAGS) copy.c -o $(PROG) $(LIBS)
+all : 
+	$(CXX) $(CXXFLAGS) $(CFILES) $(LIBS)
 
 clean :
 	rm -rf *.exe
