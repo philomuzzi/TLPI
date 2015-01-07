@@ -7,20 +7,29 @@ extern "C"
     #include "tlpi_hdr.h"
 }
 
+struct MyStruct
+{
+    int x;
+    int y;
+    int z;
+};
+
 int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    struct stat myStruct;
-    int x;
-#define STR_SIZE 100
-    char str[STR_SIZE];
-    ssize_t numRead, totRequired;
+    struct MyStruct myStruct;
+    myStruct.x = 1;
+    myStruct.y = 2;
+    myStruct.z = 3;
+    int x = 1000;
+    char *str = "abcd\n";
+    ssize_t numWrite, totRequired;
 
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
         usageErr("%s file\n", argv[0]);
 
-    fd = open(argv[1], O_RDONLY);
+    fd = open(argv[1], O_WRONLY | O_CREAT);
     if (fd == -1)
         errExit("open");
 
@@ -35,15 +44,15 @@ int main(int argc, char** argv)
     totRequired += iov[1].iov_len;
 
     iov[2].iov_base = &str;
-    iov[2].iov_len = STR_SIZE;
+    iov[2].iov_len = strlen(str);
     totRequired += iov[2].iov_len;
 
-    numRead = readv(fd, iov, 3);
-    if (numRead == -1)
-        errExit("readv");
+    numWrite = writev(fd, iov, 3);
+    if (numWrite == -1)
+        errExit("writev");
 
-    if (numRead < totRequired)
-        printf("Read fewer bytes than requested\n");
+    if (numWrite != totRequired)
+        cmdLineErr("writev error, numWrite not equal to totRequired\n");
 
     printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
 
