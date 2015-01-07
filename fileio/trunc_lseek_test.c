@@ -1,3 +1,4 @@
+#include <fcntl.h>
 extern "C"
 {
     #include "tlpi_hdr.h"
@@ -8,7 +9,7 @@ int main(int argc, char** argv)
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
         usageErr("%s file\n", argv[0]);
 
-    int fd = open(argv[1], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    int fd = open(argv[1], O_RDWR|O_CREAT|O_TRUNC, S_IRUSR | S_IWUSR);
     int fd2 = dup(fd);
     int fd3 = open(argv[1], O_RDWR);
 

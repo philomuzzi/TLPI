@@ -7,7 +7,8 @@ extern "C"
 
 int my_dup(int oldfd)
 {
-    return fcntl(oldfd, F_DUNDP, 0);
+    int fd = fcntl(oldfd, F_DUPFD, 0);
+    return fd;
 }
 
 int my_dup2(int oldfd, int newfd)
@@ -26,7 +27,8 @@ int my_dup2(int oldfd, int newfd)
         close(newfd);
     }
 
-    return fcntl(oldfd, F_DUNDP, newfd);
+    int fd = fcntl(oldfd, F_DUPFD, newfd);
+    return fd;
 }
 
 int main(int argc, char** argv)

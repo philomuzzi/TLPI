@@ -11,7 +11,7 @@ int main(int argc, char** argv)
         usageErr("%s file\n", argv[0]);
 
     int fd, fd2;
-    fd = open(fd, O_RDWR | O_CREAT);
+    fd = open(argv[1], O_RDWR | O_CREAT);
     if (fd == -1)
         errExit("open");
 
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     if (flags)
         errExit("fcntl");
 
-    flags2 = flags2(fd2, F_GETFL);
+    flags2 = fcntl(fd2, F_GETFL);
     if (flags2)
         errExit("fcntl");
 

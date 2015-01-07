@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     bool bAppend = true;
     int openFlags = O_WRONLY | O_CREAT | O_APPEND;
 
-    num_bytes == getLong(&argv[2], GN_ANY_BASE, argv[2]);
+    num_bytes = getLong(argv[2], GN_ANY_BASE, argv[2]);
 
     if (argc == 4 && strcmp(argv[3], "x") == 0)
     {
@@ -31,12 +31,12 @@ int main(int argc, char **argv)
     {
         if (bAppend) {
             if (write(fd, "1", 1) != 1)
-                Fatal("Partial/failed write");
+                fatal("Partial/failed write");
         } else {
             if (lseek(fd, 0, SEEK_END) == -1)
                 errExit("lseek");
             if (write(fd, "1", 1) != 1)
-                Fatal("Partial/failed write");
+                fatal("Partial/failed write");
         }
     }
 
