@@ -49,7 +49,7 @@ int main(int argc, char** argv)
     printf("tmpfd should be 有效, tmpfd: %d\n", tmpfd);
 
     tmpfd = my_dup2(-2, tmpfd);
-    printf("tmpfd shoule be -1, tmpfd:%d\n", tmpfd);
+    printf("tmpfd shoule be -1, tmpfd:%d, errno:%d\n", tmpfd, errno);
 
     exit(EXIT_SUCCESS);
 }
