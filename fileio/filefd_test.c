@@ -7,7 +7,7 @@ extern "C"
 
 int main(int argc, char** argv)
 {
-    if (argc == 2 || strcmp(argv[1], "--help") == 0)
+    if (argc != 2 || strcmp(argv[1], "--help") == 0)
         usageErr("%s file\n", argv[0]);
 
     int fd, fd2;
@@ -21,11 +21,11 @@ int main(int argc, char** argv)
 
     int flags, flags2;
     flags = fcntl(fd, F_GETFL);
-    if (flags)
+    if (flags == -1)
         errExit("fcntl");
 
     flags2 = fcntl(fd2, F_GETFL);
-    if (flags2)
+    if (flags2 == -1)
         errExit("fcntl");
 
     if (flags == flags2)

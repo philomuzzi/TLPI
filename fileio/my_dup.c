@@ -47,7 +47,10 @@ int main(int argc, char** argv)
     tmpfd = my_dup2(fd, fd);
     printf("fd should equal to tmpfd, fd: %d, tmpfd: %d\n", fd, tmpfd);
 
-    tmpfd = my_dup2(fd, -2);
+    tmpfd = my_dup2(fd, -20);
+    printf("tmpfd should be 有效, tmpfd: %d\n", tmpfd);
+
+    tmpfd = dup2(fd, -20);
     printf("tmpfd should be 有效, tmpfd: %d\n", tmpfd);
 
     tmpfd = my_dup2(-2, tmpfd);

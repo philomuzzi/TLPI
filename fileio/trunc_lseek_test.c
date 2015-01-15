@@ -20,7 +20,8 @@ int main(int argc, char** argv)
     write(fd3, "Gidday", 6);
 
     char buf[100];
-    read(fd, buf, 100);
+    int fd4 = open(argv[1], O_RDWR);
+    read(fd4, buf, 100);
     printf("file content: %s\n", buf);
 
     exit(EXIT_SUCCESS);
