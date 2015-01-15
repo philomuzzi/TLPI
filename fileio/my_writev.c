@@ -7,26 +7,36 @@ extern "C"
     #include "tlpi_hdr.h"
 }
 
-struct MyStruct
-{
-    int x;
-    int y;
-    int z;
-};
-
 int my_writev(int fd, const struct iovec *iov, int iovcnt)
 {
+    int numWrite;
+    int len;
+    for(int i = 0; i != iovcnt; ++i)
+        len += iov[i].iov_len;
 
+    char* buf = (char*)malloc(len + 1);
+    buf[len] = '\0';
+
+    char* k = buf;
+    for (int i = 0; i != iovcnt; ++i)
+    {
+        memcpy(k, iov[i].iov_base, iov[i].iov_len);
+        k += iov[i].iov_len;
+    }
+
+// 可能需要一个while循环才能写完，因为可能被中断
+    numWrite = write(fd, buf, len);
+    if(numWrite == -1)
+        return -1;
+
+    return numWrite;
 }
 
 int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    struct MyStruct myStruct;
-    myStruct.x = 1;
-    myStruct.y = 2;
-    myStruct.z = 3;
+    int z = 2222;
     int x = 1000;
     char *str = "abcd\n";
     ssize_t numWrite, totRequired;
@@ -40,8 +50,8 @@ int main(int argc, char** argv)
 
     totRequired = 0;
 
-    iov[0].iov_base = &myStruct;
-    iov[0].iov_len = sizeof(struct stat);
+    iov[0].iov_base = &z;
+    iov[0].iov_len = sizeof(z);
     totRequired += iov[0].iov_len;
 
     iov[1].iov_base = &x;
@@ -60,6 +70,14 @@ int main(int argc, char** argv)
         cmdLineErr("writev error, numWrite not equal to totRequired\n");
 
     printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numWrite);
+
+    int fd2 = open(argv[1], O_RDONLY);
+    if (fd2 == -1)
+        errExit("open");
+
+    char buf[100];
+    read(fd2, buf, 100);
+    printf("content: %s\n", buf);
 
     exit(EXIT_SUCCESS);
 }

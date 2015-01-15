@@ -11,13 +11,35 @@ int my_readv(int fd, const struct iovec *iov, int iovcnt)
 {
     int numRead;
 
+    // 读取到一个缓存里面，然后再一一copy到iov中
+#define MAX_TMP 1000
+    char* tmp = (char*)malloc(MAX_TMP);
+    memset(tmp, 0, MAX_TMP);
+
+    int tmpRead;
+    while ((tmpRead = read(fd, tmp, MAX_TMP-numRead)) != 0)
+    {
+        // 需要处理信号
+        if (tmpRead == -1 && errno != EINTR)
+            return -1;
+        numRead += tmpRead;
+    }
+
+    char * j = tmp;
+    for (int i = 0; i != iovcnt; ++i)
+    {
+        memcpy(iov[i].iov_base, j, iov[i].iov_len);
+        j += iov[i].iov_len;
+    }
+
+    return numRead;
 }
 
 int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    struct stat myStruct;
+    int z;
     int x;
 #define STR_SIZE 100
     char str[STR_SIZE];
@@ -32,8 +54,8 @@ int main(int argc, char** argv)
 
     totRequired = 0;
 
-    iov[0].iov_base = &myStruct;
-    iov[0].iov_len = sizeof(struct stat);
+    iov[0].iov_base = &z;
+    iov[0].iov_len = sizeof(z);
     totRequired += iov[0].iov_len;
 
     iov[1].iov_base = &x;
@@ -44,7 +66,7 @@ int main(int argc, char** argv)
     iov[2].iov_len = STR_SIZE;
     totRequired += iov[2].iov_len;
 
-    numRead = readv(fd, iov, 3);
+    numRead = my_readv(fd, iov, 3);
     if (numRead == -1)
         errExit("readv");
 
@@ -52,6 +74,7 @@ int main(int argc, char** argv)
         printf("Read fewer bytes than requested\n");
 
     printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
+    printf("z: %d, x: %d, str: %s\n", z, x, str);
 
     exit(EXIT_SUCCESS);
 }
