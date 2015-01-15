@@ -39,15 +39,15 @@ int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    int z = 222200;
-    int x = 100000;
+    int z = 20;
+    int x = 10;
     char *str = "abcdefghijk";
     ssize_t numWrite, totRequired;
 
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
         usageErr("%s file\n", argv[0]);
 
-    fd = open(argv[1], O_WRONLY | O_CREAT);
+    fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC);
     if (fd == -1)
         errExit("open");
 
@@ -61,8 +61,8 @@ int main(int argc, char** argv)
     iov[1].iov_len = sizeof(x);
     totRequired += iov[1].iov_len;
 
-    iov[2].iov_base = &str;
-    iov[2].iov_len = strlen(str) + 1;
+    iov[2].iov_base = str;
+    iov[2].iov_len = strlen(str);
     totRequired += iov[2].iov_len;
 
     numWrite = my_writev(fd, iov, 3);
