@@ -11,7 +11,8 @@ int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    struct stat myStruct;
+    //struct stat myStruct;
+    int z;
     int x;
 #define STR_SIZE 100
     char str[STR_SIZE];
@@ -26,8 +27,12 @@ int main(int argc, char** argv)
 
     totRequired = 0;
 
+    /*
     iov[0].iov_base = &myStruct;
     iov[0].iov_len = sizeof(struct stat);
+    */
+    iov[0].iov_base = &z;
+    iov[0].iov_len = sizeof(z);
     totRequired += iov[0].iov_len;
 
     iov[1].iov_base = &x;
@@ -46,6 +51,7 @@ int main(int argc, char** argv)
         printf("Read fewer bytes than requested\n");
 
     printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
+    printf("z: %d, x: %d, str: %s\n", z, x, str);
 
     exit(EXIT_SUCCESS);
 }

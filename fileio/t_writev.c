@@ -22,6 +22,7 @@ int main(int argc, char** argv)
     myStruct.x = 1;
     myStruct.y = 2;
     myStruct.z = 3;
+    int z = 2000;
     int x = 1000;
     char *str = "abcd\n";
     ssize_t numWrite, totRequired;
@@ -35,15 +36,19 @@ int main(int argc, char** argv)
 
     totRequired = 0;
 
+    /*
     iov[0].iov_base = &myStruct;
     iov[0].iov_len = sizeof(struct stat);
+    */
+    iov[0].iov_base = &z;
+    iov[0].iov_len = sizeof(z);
     totRequired += iov[0].iov_len;
 
     iov[1].iov_base = &x;
     iov[1].iov_len = sizeof(x);
     totRequired += iov[1].iov_len;
 
-    iov[2].iov_base = &str;
+    iov[2].iov_base = str;
     iov[2].iov_len = strlen(str);
     totRequired += iov[2].iov_len;
 

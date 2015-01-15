@@ -59,7 +59,7 @@ int main(int argc, char** argv)
     if (numWrite != totRequired)
         cmdLineErr("writev error, numWrite not equal to totRequired\n");
 
-    printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
+    printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numWrite);
 
     exit(EXIT_SUCCESS);
 }
