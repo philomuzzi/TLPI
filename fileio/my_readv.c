@@ -9,7 +9,7 @@ extern "C"
 
 int my_readv(int fd, const struct iovec *iov, int iovcnt)
 {
-    int numRead;
+    int numRead = 0;
 
     // 读取到一个缓存里面，然后再一一copy到iov中
 #define MAX_TMP 1000
@@ -24,6 +24,8 @@ int my_readv(int fd, const struct iovec *iov, int iovcnt)
             return -1;
         numRead += tmpRead;
     }
+
+    printf("numRead: %d\n", numRead);
 
     char * j = tmp;
     for (int i = 0; i != iovcnt; ++i)
@@ -73,7 +75,7 @@ int main(int argc, char** argv)
     if (numRead < totRequired)
         printf("Read fewer bytes than requested\n");
 
-    printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
+    printf("total bytes requested: %ld bytes read: %ld\n", (long)totRequired, (long)numRead);
     printf("z: %d, x: %d, str: %s\n", z, x, str);
 
     exit(EXIT_SUCCESS);

@@ -18,10 +18,6 @@ int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    struct MyStruct myStruct;
-    myStruct.x = 1;
-    myStruct.y = 2;
-    myStruct.z = 3;
     int z = 2000;
     int x = 1000;
     char *str = "abcd\n";
@@ -36,10 +32,6 @@ int main(int argc, char** argv)
 
     totRequired = 0;
 
-    /*
-    iov[0].iov_base = &myStruct;
-    iov[0].iov_len = sizeof(struct stat);
-    */
     iov[0].iov_base = &z;
     iov[0].iov_len = sizeof(z);
     totRequired += iov[0].iov_len;
@@ -57,9 +49,9 @@ int main(int argc, char** argv)
         errExit("writev");
 
     if (numWrite != totRequired)
-        cmdLineErr("writev error, numWrite not equal to totRequired\n");
+        printf("writev error, numWrite not equal to totRequired\n");
 
-    printf("total bytes requested: %ldl bytes write: %ld\n", (long)totRequired, (long)numWrite);
+    printf("total bytes requested: %ld bytes write: %ld\n", (long)totRequired, (long)numWrite);
 
     exit(EXIT_SUCCESS);
 }

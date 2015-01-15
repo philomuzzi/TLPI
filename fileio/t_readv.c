@@ -50,7 +50,7 @@ int main(int argc, char** argv)
     if (numRead < totRequired)
         printf("Read fewer bytes than requested\n");
 
-    printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numRead);
+    printf("total bytes requested: %ld bytes read: %ld\n", (long)totRequired, (long)numRead);
     printf("z: %d, x: %d, str: %s\n", z, x, str);
 
     exit(EXIT_SUCCESS);

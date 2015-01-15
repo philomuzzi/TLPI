@@ -10,12 +10,15 @@ extern "C"
 int my_writev(int fd, const struct iovec *iov, int iovcnt)
 {
     int numWrite;
-    int len;
+    int len = 0;
     for(int i = 0; i != iovcnt; ++i)
+    {
         len += iov[i].iov_len;
+        printf("len: %d\n", len);
+    }
 
     char* buf = (char*)malloc(len + 1);
-    buf[len] = '\0';
+    memset(buf, 0, len+1);
 
     char* k = buf;
     for (int i = 0; i != iovcnt; ++i)
@@ -36,9 +39,9 @@ int main(int argc, char** argv)
 {
     int fd;
     struct iovec iov[3];
-    int z = 2222;
-    int x = 1000;
-    char *str = "abcd\n";
+    int z = 222200;
+    int x = 100000;
+    char *str = "abcdefghijk";
     ssize_t numWrite, totRequired;
 
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
@@ -59,17 +62,17 @@ int main(int argc, char** argv)
     totRequired += iov[1].iov_len;
 
     iov[2].iov_base = &str;
-    iov[2].iov_len = strlen(str);
+    iov[2].iov_len = strlen(str) + 1;
     totRequired += iov[2].iov_len;
 
-    numWrite = writev(fd, iov, 3);
+    numWrite = my_writev(fd, iov, 3);
     if (numWrite == -1)
-        errExit("writev");
+        errExit("my_writev");
 
     if (numWrite != totRequired)
-        cmdLineErr("writev error, numWrite not equal to totRequired\n");
+        printf("writev error, numWrite not equal to totRequired\n");
 
-    printf("total bytes requested: %ldl bytes read: %ld\n", (long)totRequired, (long)numWrite);
+    printf("total bytes requested: %ld bytes write: %ld\n", (long)totRequired, (long)numWrite);
 
     int fd2 = open(argv[1], O_RDONLY);
     if (fd2 == -1)
