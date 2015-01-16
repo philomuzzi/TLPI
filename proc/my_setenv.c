@@ -6,7 +6,7 @@ extern "C" {
 
 extern char** environ;
 
-int my_setenv(cosnt char* name, const char *value, int override)
+int my_setenv(const char* name, const char *value, int override)
 {
     if(getenv(name) && !override)
         return -1;
@@ -18,11 +18,11 @@ int my_setenv(cosnt char* name, const char *value, int override)
     memset(buf, 0, len);
 
     strncpy(buf, name, strlen(name));
-    buf[strlen(name)] = "=";
+    memset(buf+strlen(name), '=', 1);
     strncpy(buf+strlen(name)+1, value, strlen(value));
 
     if (putenv(buf))
-        return -1
+        return -1;
 
     return 0;
 }
@@ -30,42 +30,62 @@ int my_setenv(cosnt char* name, const char *value, int override)
 // 在env列表中找到=之前的名称对比，如果一致，将**ep=NULL
 int my_unsetenv(const char* name)
 {
+    if (!getenv(name))
+        return -1;
+
     char **ep;
+    char *chr;
+    char **pos;
 
-    char chr;
-
-    for(ep = environ; *ep != NULL; ep++)
+    for(ep = environ; *ep != NULL;)
     {
-        chr = strchr(*ep, name);
-        if (chr == *ep  && strcmp(*ep+strlen(name), "=") == 0)
+        chr = strstr(*ep, name);
+        if (chr && (chr - *ep == 0) && strncmp(chr+strlen(name), "=", 1) == 0)
         {
-            **ep = NULL;
+            pos = ep;
+            while(*(pos + 1) != NULL)
+            {
+                *pos = *(pos + 1);
+                pos++;
+            }
+            *pos = NULL;
         }
+        else
+            ep++;
     }
+
+    return 0;
 }
 
 int main(int argc, char const *argv[])
 {
-    int j;
     char **ep;
 
     clearenv();
 
     my_setenv("abc", "ced", 1);
     my_setenv("231", "def", 1);
+    my_setenv("098", "tre", 0);
 
     for(ep = environ; *ep != NULL; ep++)
         puts(*ep);
+
+    puts("");
 
     my_setenv("231", "zzz", 1);
+    my_setenv("abc", "xxx", 0);
 
     for(ep = environ; *ep != NULL; ep++)
         puts(*ep);
+
+    puts("");
 
     my_unsetenv("231");
 
     for(ep = environ; *ep != NULL; ep++)
         puts(*ep);
+
+    puts("");
 
     return 0;
 }
