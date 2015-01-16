@@ -32,11 +32,14 @@ int my_unsetenv(const char* name)
 {
     char **ep;
 
+    char chr;
+
     for(ep = environ; *ep != NULL; ep++)
     {
-        if (0 == strchr(*ep, name) && strcmp(*ep+strlen(name), "=") == 0)
+        chr = strchr(*ep, name);
+        if (chr == *ep  && strcmp(*ep+strlen(name), "=") == 0)
         {
-            ep = NULL;
+            **ep = NULL;
         }
     }
 }
