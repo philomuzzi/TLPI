@@ -1,7 +1,9 @@
+#define _BSD_SOURCE
+#define _XOPEN_SOURCE
 #include <unistd.h>
-#include "limits.h"
-#include "pwd.h"
-#include "shadow.h"
+#include <limits.h>
+#include <pwd.h>
+#include <shadow.h>
 
 extern "C" {
     #include "tlpi_hdr.h"
@@ -10,9 +12,9 @@ extern "C" {
 int main(int argc, char const *argv[])
 {
     char *username, *password, *encrypted, *p;
-    struct passed *pwd;
+    struct passwd *pwd;
     struct spwd *spwd;
-    Boolean authOk;
+    bool authOk;
     size_t len;
     long lnmax;
     lnmax = sysconf(_SC_LOGIN_NAME_MAX);
@@ -37,7 +39,7 @@ int main(int argc, char const *argv[])
     if (pwd == NULL)
         fatal("couldn't get password record");
     spwd = getspnam(username);
-    if (spwd == NULL && errno == EACCESS)
+    if (spwd == NULL && errno == EACCES)
         fatal("no permission to read shadow password file");
 
     if (spwd != NULL)
@@ -52,7 +54,7 @@ int main(int argc, char const *argv[])
     if (encrypted == NULL)
         errExit("crypt");
 
-    authOk = strcmp(encrypted, pwd->pw_passwd) == 0;
+    authOk = (strcmp(encrypted, pwd->pw_passwd) == 0);
     if (!authOk) {
         printf("Incorrect password\n");
         exit(EXIT_FAILURE);

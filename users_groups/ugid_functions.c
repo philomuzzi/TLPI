@@ -1,6 +1,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "ugid_functions.h"
 
 char * userNameFromId(uid_t uid)
@@ -19,12 +20,12 @@ uid_t userIdFromName(const char* name)
 
     char *endptr;
 
-    if(name == NULL || *name == "\0")
+    if(name == NULL || *name == '\0')
         return -1;
 
-    u = strtol(name, &endptr, 10);
-    if (*endptr == "\0")
-        return u;
+    uid = strtol(name, &endptr, 10);
+    if (*endptr == '\0')
+        return uid;
 
     pwd = getpwnam(name);
     if (pwd == NULL)
