@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <setjmp.h>
 
+// 看到优化过的结果
+// cc -O -o setjmp_vars.exe setjmp_vars.c
+
 static jmp_buf env;
 
 static void doJump(int nvar, int rvar, int vvar)
