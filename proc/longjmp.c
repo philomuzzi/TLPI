@@ -19,6 +19,9 @@ static void f1(int argc)
 
 int main(int argc, char const *argv[])
 {
+    if (argc ==2 && strcmp(argv[1], "--help") == 0)
+        usageErr("%s [x]\n", argv[0]);
+
     switch(setjmp(env)) {
         case 0:
             printf("Calling f1() after initial setjmp()\n");
