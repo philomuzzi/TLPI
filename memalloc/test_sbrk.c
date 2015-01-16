@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 
     numAllocs = getInt(argv[1], GN_GT_0, "num-allocs");
     if(numAllocs > MAX_ALLOCS)
-        cmdlineErr("num-allocs > %d\n", MAX_ALLOCS);
+        cmdLineErr("num-allocs > %d\n", MAX_ALLOCS);
 
     blockSize = getInt(argv[2], GN_GT_0 | GN_ANY_BASE, "block-size");
 
@@ -25,13 +25,13 @@ int main(int argc, char const *argv[])
     freeMax = (argc > 5) ? getInt(argv[5], GN_GT_0, "max") : numAllocs;
 
     if (freeMax > numAllocs)
-        cmdlineErr("free-max > num-allocs\n");
+        cmdLineErr("free-max > num-allocs\n");
 
     printf("Initial program break:        %10p\n", sbrk(0));
 
     printf("Allocating %d*%d bytes\n", numAllocs, blockSize);
     for (j = 0; j < numAllocs; ++j) {
-        ptr[j] = malloc(blockSize);
+        ptr[j] = (char*)malloc(blockSize);
         if (ptr[j] == NULL)
             errExit("malloc");
 
@@ -43,7 +43,7 @@ int main(int argc, char const *argv[])
 
     for (int i = freeMin - 1; i < freeMax; i += freeStep)
     {
-        free(prt[i]);
+        free(ptr[i]);
     }
 
     printf("after free(), program break is: %10p\n", sbrk(0));
