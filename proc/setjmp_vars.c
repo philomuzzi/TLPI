@@ -10,7 +10,7 @@ static void doJump(int nvar, int rvar, int vvar)
     longjmp(env, 1);
 }
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
     int nvar;
     register int rvar;

@@ -1,11 +1,10 @@
-#define _GNU_SOURCE
 #include <stdlib.h>
 
 extern "C" {
     #include "tlpi_hdr.h"
 }
 
-int int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
     if (argc < 2 || strcmp(argv[1], "--help") == 0)
         usageErr("%s \"env1=xxx\" ...\n", argv[0]);

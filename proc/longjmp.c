@@ -17,7 +17,7 @@ static void f1(int argc)
     f2();
 }
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
     switch(setjmp(env)) {
         case 0:

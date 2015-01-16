@@ -30,9 +30,9 @@ int main(int argc, char **argv)
 
     char *p;
 
-    p = malloc(1024);
+    p = (char*)malloc(1024);
 
     doCalc(key);
 
-    exit(EXIT_SUCCESS;
+    exit(EXIT_SUCCESS);
 }
