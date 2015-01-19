@@ -2,7 +2,11 @@
 #include <grp.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "ugid_functions.h"
+
+// cc -fPIC -c ugid_functions.c
+// cc -shared -o libugid.so ugid_functions.o
 
 char * userNameFromId(uid_t uid)
 {
