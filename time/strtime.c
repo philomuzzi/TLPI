@@ -5,7 +5,7 @@ extern "C" {
     #include "tlpi_hdr.h"
 }
 
-#define SBUF_SIZE 1000;
+#define SBUF_SIZE 1000
 
 int main(int argc, char** argv)
 {
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 
     printf("calendat time (seconds since Epoch): %ld\n", (long)mktime(&tm));
 
-    ofmt(argv > 3) ? argv[3] : "%H:%M:%S %A, %d %B %Y %Z";
+    ofmt = (argc > 3) ? argv[3] : "%H:%M:%S %A, %d %B %Y %Z";
     if (strftime(sbuf, SBUF_SIZE, ofmt, &tm) == 0)
         fatal("strftime returned 0");
 

@@ -2,7 +2,7 @@ TLPI_PATH = ..
 
 INCLUDES = -I $(TLPI_PATH)/lib
 LIBS = -static -ltlpi
-CXXFLAGS = -g -Wall ${INCLUDES}  -L.. -L.
+CXXFLAGS = -fpermissive -g -Wall ${INCLUDES}  -L.. -L.
 
 SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c,%.exe,$(SRCS))
