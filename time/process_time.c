@@ -23,7 +23,7 @@ static void displayProcessTimes(const char* msg)
     if (clockTime == -1)
         errExit("clock");
 
-    printf("    clock() returns: %ld clocks-per-sec (%.2f secs)\n", (long)clockTime. (double)clockTime / CLOCKS_PER_SEC);
+    printf("    clock() returns: %ld clocks-per-sec (%.2f secs)\n", (long)clockTime, (double)clockTime / CLOCKS_PER_SEC);
 
     if (times(&t) == -1)
         errExit("times");
