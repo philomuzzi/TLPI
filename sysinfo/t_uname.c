@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include <sys/utsname.h>
 
 extern "C" {
