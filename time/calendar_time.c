@@ -41,8 +41,8 @@ int main(int argc, char **argv)
     printf(" year=%d mon=%d mday=%d hour=%d min=%d sec=%d wday=%d yday=%d isdst=%d\n", loc.tm_year,
         loc.tm_mon, loc.tm_mday, loc.tm_hour, loc.tm_min, loc.tm_sec, loc.tm_wday, loc.tm_yday, loc.tm_isdst);
 
-    printf("asctime() formats the gmtime() value as: %s\n", asctime(&gm));
-    printf("ctime() formats the time() value as:     %s\n", ctime(&t));
+    printf("asctime() formats the gmtime() value as: %s", asctime(&gm));
+    printf("ctime() formats the time() value as:     %s", ctime(&t));
 
     printf("mktime() of gmtime() value:     %ld secs\n", (long)mktime(&gm));
     printf("mktime() of localtime() value:  %ld secs\n", (long)mktime(&loc));
