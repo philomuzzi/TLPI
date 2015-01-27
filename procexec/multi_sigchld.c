@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
     if (sigaction(SIGCHLD, &sa, NULL) == -1)
         errExit("sigaction");
 
-    for (int j = 0; j < argc; ++j)
+    for (j = 0; j < argc; ++j)
     {
         switch(fork()) {
             case -1:
